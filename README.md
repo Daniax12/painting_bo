@@ -1,1 +1,1 @@
-# painting_bo
+The back office project for selling paintings is designed to provide a comprehensive administrative system to manage all aspects related to the art business. It includes CRUD (Create, Read, Update, Delete) operations for artists, paintings, and a sales dashboard.
