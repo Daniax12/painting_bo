@@ -1,7 +1,7 @@
 <div class="main-panel">
     <div class="content-wrapper">
         <div class="d-flex flex-row justify-content-between align-items-center">
-            <h3 class="text-muted"> Journal de VENTE / Numero: JOU/12/12/2023/001</h3>
+            <h3 class="text-muted"> Journal > <?php echo $code_journal['reference_code'] ?> > Numero: <?php echo $journal['id_journal'] ?></h3>
             <a data-bs-toggle="modal" data-bs-target="#staticBackdropEcriture">
                 <button class="btn btn-primary">
                     <i class="mdi mdi-lead-pencil" style="margin-right: 5px"></i> ECRIRE ICI
@@ -12,7 +12,6 @@
             <div class="col-lg-12 grid-margin stretch-card" style="padding: 3% 3% 3% 3%">
                 <div class="card">
                     <div class="card-body">
-                    
                         <div class="table-responsive">
                             <table class="table table-striped text-center">
                                 <thead>
@@ -26,32 +25,33 @@
                                     </tr>   
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td> 2023-12-12 </td>
-                                        <td> 602: Location </td>
-                                        <td> PC1234 </td>
-                                        <td> Paiement location </td>
-                                        <td> Ar 1000 </td>
-                                        <td>  </td>
-                                    </tr>
-                                    <tr>
-                                        <td> 2023-12-12 </td>
-                                        <td> 411: FRN Local </td>
-                                        <td> PC1234 </td>
-                                        <td> Paiement location </td>
-                                        <td>  </td>
-                                        <td> Ar 1000 </td>
-                                    </tr>
+                                    <?php if($ecritures_fille){
+                                        foreach($ecritures_fille as $ecriture){ ?>
+                                            <tr>
+                                                <td> <?php echo $ecriture['date_journal'] ?> </td>
+                                                <td> <?php echo $ecriture['numero_compte'] ?> : <?php echo $ecriture['intitule_compte'] ?> </td>
+                                                <td> <?php echo $ecriture['reference_piece'] ?> </td>
+                                                <td> <?php echo $ecriture['libelle_journal'] ?>n </td>
+                                                <td> AR <?php echo $ecriture['debit'] ?> </td>
+                                                <td> AR <?php echo $ecriture['credit'] ?> </td>
+                                            </tr>
+                                        <?php }
+                                    } ?>
                                 </tbody>
                             </table>
                         </div>
-                        <div style="color: #C94536; margin-top:1%" class="align-items-center">
-                            <i class="mdi mdi-comment-alert"></i> Total debit et credit doivent etre les memes
-                        </div>
+                        <?php if(isset($fail)){ ?>
+                            <div style="color: #C94536; margin-top:1%" class="align-items-center">
+                                <i class="mdi mdi-comment-alert"></i> Total debit et credit doivent etre les memes
+                            </div>
+                        <?php } ?>
+                        
                         <div class="d-flex flex-row" style="margin-top:2%">
-                            <button class="btn btn-outline-primary">
-                                Enregistrer
-                            </button>
+                            <a href="<?php echo base_url() ?>admin/Journal_ctrl/submiting_journal/<?php echo $code_journal['id_code_journal'] ?>/<?php echo $journal['id_journal'] ?>">
+                                <button class="btn btn-outline-primary">
+                                    Enregistrer
+                                </button>
+                            </a>
                             <button class="btn btn-outline-danger" style="margin-left: 5%">
                                 Supprimer
                             </button>
@@ -71,18 +71,21 @@
                         </div>
 
                         <div class="modal-body text-center">
-                            <form action = "<?php echo site_url("index.php/Journal_ctrl/insert_new_journal/") ?>" method="POST">
-                                <!-- <input type="hidden" name="code_journal" value="<?php // echo $main_code_journal['id_code_journal']  ?>"> -->
-                                <!-- Date du journal  -->
+                            <form action = "<?php echo base_url() ?>admin/Journal_ctrl/adding_ecriture_fille" method="POST">
+                                <input type="hidden" name="code_journal" value="<?php echo $code_journal['id_code_journal']  ?>">
+                                <input type="hidden" name="id_journal" value="<?php echo $journal['id_journal']  ?>">
+                                <!-- COMPTE GENERAL  -->
                                
                                 <div class="form-group border border-2" style="padding: 2% 2% 2% 2%">
                                     <div class="d-flex flex-row align-items-center">
                                         <label for="inputText1" style="width: 50%"> Compte General:  </label>
-                                        <select name="compte_general_id" class="form-control">
+                                        <select name="compte_general_id" class="form-control" required>
                                             <option value=""></option>
-                                            <option value=""> 601: Achat marchadise </option>
-                                            <option value=""> 602: Location appareil photo </option>
-                                            <option value=""> 602: Location atelier </option>
+                                            <?php if($comptes){
+                                                foreach($comptes as $compte){ ?>
+                                                    <option value="<?php echo $compte -> id_compte_general ?>">  <?php echo $compte -> numero_compte ?> : <?php echo $compte -> intitule_compte ?> </option>
+                                                <?php }
+                                            } ?>
                                         </select>
                                     </div>
                                 </div>
@@ -91,16 +94,16 @@
                                 <div class="form-group border border-2" style="padding: 2% 2% 2% 2%">
                                     <div class="d-flex flex-row align-items-center">
                                         <label for="inputText1" style="width: 30%" > Montant:  </label>
-                                        <select  name="compte_general_id" class="form-control"  style="width: 40%">
-                                            <option value=""> CREDIT </option>
-                                            <option value=""> DEBIT </option>
+                                        <select  name="credit_debit" class="form-control"  style="width: 40%">
+                                            <option value="0"> CREDIT </option>
+                                            <option value="1"> DEBIT </option>
                                         </select>
                                         <input type="number" name="montant" class="form-control">
                                     </div>    
                                 </div>
 
                                  <!-- MONNAIE  -->
-                                 <div class="form-group border border-2" style="padding: 2% 2% 2% 2%">
+                                 <!-- <div class="form-group border border-2" style="padding: 2% 2% 2% 2%">
                                     <div class="d-flex flex-row align-items-center">
                                         <label for="inputText1" style="width: 50%"> Monnaie:  </label>
                                         <select name="monnaie_id" class="form-control">
@@ -109,7 +112,7 @@
                                             <option value=""> DOLLAR </option>
                                         </select>
                                     </div>
-                                </div>
+                                </div> -->
 
                                 <input type="submit" value = "+ Ajouter ecriture" class="btn btn-primary">
                             </form>
@@ -121,3 +124,4 @@
                     </div>
                 </div>
             </div>
+        </div>

@@ -1,6 +1,6 @@
 <?php 
-if(isset($dash_active) == false) $dash_active = '';
-if(isset($payment_active) == false) $payment_active = '';
+  if(isset($dash_active) == false) $dash_active = '';
+  if(isset($payment_active) == false) $payment_active = '';
 ?>
 
 <!DOCTYPE html>
@@ -32,21 +32,12 @@ if(isset($payment_active) == false) $payment_active = '';
     <!-- partial:partials/_navbar.html -->
     <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
       <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
-        <a class="navbar-brand brand-logo mr-5" href="index.html"><img src="" class="mr-2" alt="logo"/></a>
-        <a class="navbar-brand brand-logo-mini" href="index.html"><img src="" alt="logo"/></a>
+        <a class="navbar-brand brand-logo mr-5" ><img style="width:60%; height:10%" src="<?php echo base_url() ?>assets/images/logo.PNG" class="mr-2" alt="logo"/></a>
+        <a class="navbar-brand brand-logo-mini" ><img style="width:100%; height:100%" src="<?php echo base_url() ?>assets/images/logo.PNG" alt="logo"/></a>
       </div>
       <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
         <ul class="navbar-nav mr-lg-2">
-          <li class="nav-item nav-search d-none d-lg-block">
-            <div class="input-group">
-              <div class="input-group-prepend hover-cursor" id="navbar-search-icon">
-                <span class="input-group-text" id="search">
-                  <i class="icon-search"></i>
-                </span>
-              </div>
-              <input type="text" class="form-control" id="navbar-search-input" placeholder="Search now" aria-label="search" aria-describedby="search">
-            </div>
-          </li>
+          
         </ul>
         <ul class="navbar-nav navbar-nav-right">
           <li class="nav-item nav-profile dropdown">
@@ -111,7 +102,7 @@ if(isset($payment_active) == false) $payment_active = '';
             <div class="collapse" id="ui-basic1">
               <ul class="nav flex-column sub-menu">
                 <li class="nav-item"> <a class="nav-link" href="<?php echo base_url() ?>admin/Artiste_ctrl/artiste_liste"> Listes </a></li>
-                <li class="nav-item"> <a class="nav-link" href="<?php echo base_url() ?>admin/Admin_ctrl/artiste_ajout"> Ajouter artiste </a></li>
+                <li class="nav-item"> <a class="nav-link" href="<?php echo base_url() ?>admin/Artiste_ctrl/artiste_ajout"> Ajouter artiste </a></li>
               </ul>
             </div>
           </li>
@@ -124,18 +115,12 @@ if(isset($payment_active) == false) $payment_active = '';
             </a>
             <div class="collapse" id="ui-basic">
               <ul class="nav flex-column sub-menu">
-                <li class="nav-item"> <a class="nav-link" href="<?php echo base_url() ?>admin/Admin_ctrl/painting_liste"> Listes </a></li>
-                <li class="nav-item"> <a class="nav-link" href="<?php echo base_url() ?>admin/Admin_ctrl/painting_ajout"> Ajouter tableaux </a></li>
+                <li class="nav-item"> <a class="nav-link" href="<?php echo base_url() ?>admin/Painting_ctrl/painting_list"> Listes </a></li>
+                <li class="nav-item"> <a class="nav-link" href="<?php echo base_url() ?>admin/Painting_ctrl/painting_ajout_page"> Ajouter tableaux </a></li>
               </ul>
             </div>
           </li>
 
-          <li class="nav-item <?php echo $payment_active; ?>">
-            <a class="nav-link" href="<?php echo base_url() ?>admin/Admin_ctrl/">
-              <i class="mdi mdi-cash-multiple" style="margin-right: 5%"></i>
-              <span class="menu-title">Service payment</span>
-            </a>
-          </li>
 
           <li class="nav-item text-muted" style="margin-top: 20px;">
             <h4 class="font-weight-bold text-muted">COMPTABILITE</h4>
@@ -149,10 +134,11 @@ if(isset($payment_active) == false) $payment_active = '';
             </a>
             <div class="collapse" id="ui-basic4">
               <ul class="nav flex-column sub-menu">
-                <li class="nav-item"> <a class="nav-link" href="<?php echo base_url() ?>admin/Admin_ctrl/journal_liste"> Achat </a></li>
-                <li class="nav-item"> <a class="nav-link" href="<?php echo base_url() ?>admin/Admin_ctrl/journal_pre"> Vente </a></li>
-                <li class="nav-item"> <a class="nav-link" href="#"> Banque </a></li>
-                <li class="nav-item"> <a class="nav-link" href="#"> Caisse </a></li>
+                <?php if($code_journaux){
+                  foreach($code_journaux as $cj){ ?>
+                    <li class="nav-item"> <a class="nav-link" href="<?php echo base_url("admin/Journal_ctrl/code_ecriture/") ?>/<?php echo $cj -> id_code_journal ?>"> <?php echo $cj -> reference_code ?>  </a></li>
+                  <?php }
+                } ?>
               </ul>
             </div>
           </li> 
@@ -165,8 +151,8 @@ if(isset($payment_active) == false) $payment_active = '';
             </a>
             <div class="collapse" id="ui-basic36">
               <ul class="nav flex-column sub-menu">
-                <li class="nav-item"> <a class="nav-link" href="<?php echo base_url() ?>admin/Admin_ctrl/grand_livre_compte"> Grand livre comptes </a></li>
-                <li class="nav-item"> <a class="nav-link" href="<?php echo base_url() ?>admin/Admin_ctrl/balance_general"> Balance </a></li>
+                <li class="nav-item"> <a class="nav-link" href="<?php echo base_url() ?>admin/Compte_ctrl/grand_livre_page"> Grand livre comptes </a></li>
+                <li class="nav-item"> <a class="nav-link" href="<?php echo base_url() ?>admin/Compte_ctrl/balance_page"> Balance </a></li>
               </ul>
             </div>
           </li>

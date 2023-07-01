@@ -6,7 +6,7 @@
             <div class="col-md-8 grid-margin stretch-card">
                 <div class="card">
                     <div class="card-body">
-                        <form action="<?php echo base_url() ?>admin/Artiste_ctrl/adding_artistE" method = "POST" class="forms-sample" enctype="multipart/form-data">
+                        <form action="<?php echo base_url() ?>admin/Artiste_ctrl/adding_artiste" method = "POST" class="forms-sample" enctype="multipart/form-data">
                             <!-- Nom -->
                             <div class="form-group row">
                                 <label for="exampleInputUsername2" class="col-sm-3 col-form-label">Nom : </label>
@@ -23,6 +23,14 @@
                                 </div>
                             </div>
 
+                             <!-- DATE DE NAISSANCE  -->
+                             <div class="form-group row">
+                                <label for="exampleInputConfirmPassword2" class="col-sm-3 col-form-label">Date de naissance :</label>
+                                <div class="col-sm-9">
+                                <input type="date" class="form-control" name="dtn" id="exampleInputConfirmPassword2">
+                                </div>
+                            </div>
+
                             <!-- ADRESSE -->
                             <div class="form-group row">
                                 <label for="exampleInputConfirmPassword2" class="col-sm-3 col-form-label">Adresse : </label>
@@ -31,14 +39,14 @@
                                 </div>
                             </div>
 
-                            <!-- DATE DE NAISSANCE  -->
-                            <div class="form-group row">
-                                <label for="exampleInputConfirmPassword2" class="col-sm-3 col-form-label">Date de naissance :</label>
+                              <!-- EMAIL -->
+                              <div class="form-group row">
+                                <label for="exampleInputConfirmPassword2" class="col-sm-3 col-form-label">Email : </label>
                                 <div class="col-sm-9">
-                                <input type="date" class="form-control" name="dtn" id="exampleInputConfirmPassword2">
+                                <input type="text" class="form-control" name="email" id="exampleInputConfirmPassword2">
                                 </div>
                             </div>
-
+                        
                             <!-- PHOTO  -->
                             <div class="form-group row">
                                 <label for="exampleInputConfirmPassword2" class="col-sm-3 col-form-label">Photo :</label>

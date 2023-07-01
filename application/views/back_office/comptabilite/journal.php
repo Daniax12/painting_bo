@@ -1,7 +1,7 @@
 <div class="main-panel">
     <div class="content-wrapper">
         <div class="d-flex flex-row justify-content-between align-items-center">
-            <h3 class="text-muted"> Journal de VENTE</h3>
+            <h3 class="text-muted"> Journal :  <?php  echo $code_journal['reference_code'] ?></h3>
             <a data-bs-toggle="modal" data-bs-target="#staticBackdropEcriture">
                 <button class="btn btn-primary">
                     <i class="mdi mdi-lead-pencil" style="margin-right: 5px"></i> AJOUTER
@@ -26,22 +26,18 @@
                             </tr>   
                         </thead>
                         <tbody>
-                            <tr>
-                                <td> 2023-12-12 </td>
-                                <td> 602: Location </td>
-                                <td> PC1234 </td>
-                                <td> Paiement location </td>
-                                <td> Ar 1000 </td>
-                                <td>  </td>
-                            </tr>
-                            <tr>
-                                <td> 2023-12-12 </td>
-                                <td> 411: FRN Local </td>
-                                <td> PC1234 </td>
-                                <td> Paiement location </td>
-                                <td>  </td>
-                                <td> Ar 1000 </td>
-                            </tr>
+                            <?php if($ecritures){
+                                foreach($ecritures as $ecriture){ ?>
+                                     <tr>
+                                        <td> <?php echo $ecriture['date_journal'] ?> </td>
+                                        <td> <?php echo $ecriture['numero_compte'] ?> : <?php echo $ecriture['intitule_compte'] ?> </td>
+                                        <td> <?php echo $ecriture['reference_piece'] ?> </td>
+                                        <td> <?php echo $ecriture['libelle_journal'] ?> </td>
+                                        <td> Ar <?php echo $ecriture['debit'] ?> </td>
+                                        <td> Ar <?php echo $ecriture['credit'] ?> </td>
+                                    </tr>
+                                <?php }
+                            } ?>
                         </tbody>
                     </table>
                     </div>
@@ -60,8 +56,8 @@
                         </div>
 
                         <div class="modal-body text-center">
-                            <form action = "<?php echo site_url("index.php/Journal_ctrl/insert_new_journal/") ?>" method="POST">
-                                <!-- <input type="hidden" name="code_journal" value="<?php // echo $main_code_journal['id_code_journal']  ?>"> -->
+                            <form action = "<?php echo base_url() ?>admin/Journal_ctrl/creating_journal" method="POST">
+                                <input type="hidden" name="code_journal" value="<?php echo $code_journal['id_code_journal']  ?>">
                                 <!-- Date du journal  -->
                                
                                 <div class="form-group border border-2" style="padding: 2% 2% 2% 2%">
@@ -83,16 +79,16 @@
                                 <div class="form-group border border-2" style="padding: 2% 2% 2% 2%">
                                     <div class="d-flex flex-row align-items-center">
                                         <label for="inputText1" style="width: 50%" > Description:  </label>
-                                        <input id="inputText1" type="text" name="piece_journal" class="form-control" required>
+                                        <input id="inputText1" type="text" name="libelle" class="form-control" required>
                                     </div>    
                                 </div>
                                 <input type="submit" value = "+ Ajouter ecriture" class="btn btn-primary">
                             </form>
                         </div>
-
                         <div class="modal-footer justify-content-center">
                         
                         </div>
                     </div>
                 </div>
             </div>
+        </div>

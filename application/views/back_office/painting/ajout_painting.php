@@ -6,44 +6,60 @@
             <div class="col-md-8 grid-margin stretch-card">
                 <div class="card">
                     <div class="card-body">
-                        <form class="forms-sample">
+                        <form method="post" action="<?php echo base_url() ?>admin/Painting_ctrl/adding_painting" class="forms-sample" enctype="multipart/form-data">
+                            <!-- NOM DU TABLEAU  -->
                             <div class="form-group row">
                                 <label for="exampleInputUsername2" class="col-sm-3 col-form-label">Nom: </label>
                                 <div class="col-sm-9">
-                                <input type="text" class="form-control" name="name_painting" placeholder="Username">
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label for="exampleInputEmail2" class="col-sm-3 col-form-label"> Artiste: </label>
-                                <div class="col-sm-9">
-                                <select name="artiste_id" class="form-control" name="" id="">
-                                    <option value=""> Ansta </option>
-                                    <option value=""> Rasata </option>
-                                </select>
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label for="exampleInputMobile" class="col-sm-3 col-form-label">Description: </label>
-                                <div class="col-sm-9">
-                                <input type="text" name="description" class="form-control" id="exampleInputMobile" placeholder=" Biographie ">
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label for="exampleInputConfirmPassword2" class="col-sm-3 col-form-label">Prix: </label>
-                                <div class="col-sm-9">
-                                <input type="text" name="price" class="form-control" id="exampleInputConfirmPassword2" placeholder="Adresse">
+                                    <input type="text" class="form-control" name="paintingname">
                                 </div>
                             </div>
 
+                            <!-- ARTISTE  -->
+                            <div class="form-group row">
+                                <label for="exampleInputEmail2" class="col-sm-3 col-form-label"> Artiste: </label>
+                                <div class="col-sm-9">
+                                <select name="idartist" class="form-control" id="">
+                                    <?php foreach($artistes as $artiste){ ?>
+                                        <option value="<?php echo $artiste['idartist']; ?>"> <?php echo $artiste['artistname']; ?> </option>
+                                    <?php } ?>
+                                </select>
+                                </div>
+                            </div>
+
+                            <!-- DESCRIPTION  -->
+                            <div class="form-group row">
+                                <label for="exampleInputMobile" class="col-sm-3 col-form-label">Description: </label>
+                                <div class="col-sm-9">
+                                    <input type="text" name="description" class="form-control" id="exampleInputMobile">
+                                </div>
+                            </div>
+
+                            <!-- PRICE  -->
+                            <div class="form-group row">
+                                <label for="exampleInputConfirmPassword2" class="col-sm-3 col-form-label">Prix: </label>
+                                <div class="col-sm-9">
+                                    <input type="text" name="price" class="form-control" id="exampleInputConfirmPassword2">
+                                </div>
+                            </div>
+
+                             <!-- DATE ENTRANCE  -->
+                             <div class="form-group row">
+                                <label for="exampleInputConfirmPassword2" class="col-sm-3 col-form-label">Date entrance : </label>
+                                <div class="col-sm-9">
+                                    <input type="date" name="entrancedate" class="form-control" id="exampleInputConfirmPassword2">
+                                </div>
+                            </div>
+
+                            <!-- PHOTO  -->
                             <div class="form-group row">
                                 <label for="exampleInputConfirmPassword2" class="col-sm-3 col-form-label">Photo tableau: </label>
                                 <div class="col-sm-9">
-                                <input type="file" name="painting_photo" class="form-control" id="exampleInputConfirmPassword2" placeholder="Adresse">
+                                    <input type="file" name="painting_photo" class="form-control" id="exampleInputConfirmPassword2">
                                 </div>
                             </div>
 
                             <button type="submit" class="btn btn-primary mr-2">Enregistrer</button>
-                            <button class="btn btn-light">Cancel</button>
                         </form>
                     </div>
                 </div>
