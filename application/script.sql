@@ -78,6 +78,13 @@ create table painting_buying(
     foreign key(idbuying) references buying(idbuying)
 );
 
+-- --------- ARTISTE_PAINTING
+-- create or replace view v_artiste_painting as (
+--     select artiste.artistname, artiste.biographie, artiste.image as artiste_image, painting.* 
+--     from painting 
+--     inner join artiste on artiste.idartist = painting.idartist
+-- );
+
 -- ------------ INSERTION EXEMPLE
 -- insert into artiste values(default, 'ANTSA', 'ABOUT ME', '2000-08-31', 'img/artiste8.png', 'ANTANANARIVO', 'antsa@gmail.com');
 
@@ -92,6 +99,13 @@ create table compte_general(
     intitule_compte varchar(50)
 );
 
+insert into compte_general values(default, '601', 'ACHAT MARCHANDISES');
+insert into compte_general values(default, '411', 'CLIENT');
+insert into compte_general values(default, '404', 'FOURNISSEURS');
+insert into compte_general values(default, '53', 'CAISSE');
+insert into compte_general values(default, '512', 'BANQUE');
+insert into compte_general values(default, '707', 'VENTE MARCHANDISES');
+
 -- ------------------------ CODE JOURNAL
 create sequence code_journal_seq increment by 1;
 
@@ -101,11 +115,16 @@ create table code_journal(
     reference_code varchar(50)
 );
 
+insert into code_journal values(default, 'AC', 'ACHAT');
+insert into code_journal values(default, 'VE', 'VEMTE');
+insert into code_journal values(default, 'BQ', 'BANQUE');
+insert into code_journal values(default, 'CAI', 'CAISSE');
+
 -- --------------------- JOURNAL 
 create sequence journal_seq increment by 1;
 
 create table journal(
-    id_journal varchar(50) primary key default concat('JOURNAL_', nextval('journal_seq')),
+    id_journal varchar(50) primary key default concat('JOURNAL_', TO_CHAR(CURRENT_DATE, 'MM/YYYY'), nextval('journal_seq')),
     reference_piece varchar(50),
     libelle_journal varchar(100),
     date_journal date,
@@ -128,3 +147,18 @@ create table content_journal(
 );
 
 -- ----------------------------------------------------------------
+create view v_journal_content as(
+    select code_journal.reference_code, journal.*, content_journal.id_compte_general, compte_general.intitule_compte, compte_general.numero_compte, content_journal.credit, content_journal.debit
+    from content_journal
+    inner join journal on journal.id_journal = content_journal.id_journal
+    left join compte_general on compte_general.id_compte_general = content_journal.id_compte_general
+    inner join code_journal on code_journal.id_code_journal = journal.id_code_journal
+);
+
+-- --------------------------------------------------------------------
+create view v_summary_sales as(
+    select artiste.artistname, painting.paintingname, painting.price
+    from painting_buying
+    inner join painting on painting_buying.idpainting = painting.idpainting
+    right join artiste on artiste.idartist = painting.idartist
+);

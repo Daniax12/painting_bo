@@ -13,7 +13,10 @@ class Artiste_ctrl extends CI_Controller {
 	{
 		$data['content'] = 'back_office/artiste/liste_artiste';
         $data['artistes'] = $this->Artiste->get_all_artiste_with_age();
-
+		$fail = $this->input->get('fail');
+		if(isset($fail)){
+			$data['fail'] = 'Artiste a encore des tableaux dans la base de donnee';
+		}
 		$this->load->view('back_office/main', $data);	
 	}		
 
@@ -30,18 +33,44 @@ class Artiste_ctrl extends CI_Controller {
 		redirect(base_url().'admin/Artiste_ctrl/artiste_liste');
 	}
 
-    // public function inserting_tiers(){
-    //     $compte_general = $this->input->post('compte_general');
-	// 	$nom = $this->input->post('entreprise'); 
-	// 	$debut_num = $this->input->post('debut_numero'); 
-	// 	$numero = $this->input->post('numero_compte');
-	// 	$main_num = $debut_num . $numero;
-	// 	$intitule = $this->input->post('intitule'); 
-	// 	$adresse = $this->input->post('adresse'); 
-	// 	$email = $this->input->post('email'); 
-	// 	$responsable = $this->input->post('responsable'); 
+	// AJOUT ARTISTE_PAGE
+	public function artiste_ajout(){
+		$data['content'] = 'back_office/artiste/ajout_artiste';
+		$this->load->view('back_office/main', $data);
+	}
 
-	// 	$this -> Tiers -> insert_tiers($compte_general, $nom, $main_num, $intitule, $adresse, $email, $responsable);
-	// 	redirect("index.php/Tiers_ctrl");
-    // }
+	// Ajout d'un nouveau artiste
+	public function adding_artiste(){
+		$nom = $this->input->post('name_artiste');
+		$biographie = $this->input->post('biographie');
+		$dtn = $this->input->post('dtn');
+		$email = $this->input->post('email');
+		$adress = $this->input->post('adresse');
+
+		// Traiting image
+		$img = $_FILES['artiste_img'];
+		$imgName = $img['name'];
+		$config['upload_path']   = "./assets/images/artiste/";
+        $config['allowed_types'] = 'gif|jpg|png'; 
+        $config['max_size']      = 100000000; 
+        $config['max_width']     = 1024000000; 
+        $config['max_height']    = 2000;  
+        $this->load->library('upload', $config);
+
+		$this->upload->do_upload('artiste_img');
+		$data = array('upload_data' => $this->upload->data());
+		$this -> Artiste -> add_artiste($nom, $dtn, $biographie, $imgName, $email, $adress);
+		redirect(base_url().'admin/Artiste_ctrl/artiste_liste');
+	}
+
+	// Supprimer artiste
+	public function deleting_artiste(){
+		$id_artiste = $nom = $this->input->post('id_artiste');
+		$result = $this -> Artiste -> delete_artiste($id_artiste);
+		if($result == 1){	// Already have some paintings
+			redirect(base_url().'admin/Artiste_ctrl/artiste_liste?fail=0');
+		} else {
+			redirect(base_url().'admin/Artiste_ctrl/artiste_liste');
+		}
+	}
 }
